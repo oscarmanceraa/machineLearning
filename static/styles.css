@@ -1,0 +1,71 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    color: #eee;
+    background-color: #091016;
+}
+
+.tittle, .referencia{
+    display: block;
+    font-size: 30px;
+}
+
+.referencia{
+    font-size: 20px;
+}
+
+h2{
+    margin: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: 100;
+    font-size: 25px;
+    padding: 10px;
+    text-align: center;
+    align-self: center;;
+}
+
+p{
+    justify-content: center; 
+    text-align: justify;
+    margin: 20px;
+    line-height: 22px;
+}
+
+div{
+    background-color: transparent;
+    background-color: #016;
+    padding: 20px 0px;
+    max-width: 600px;
+    margin: auto;
+    box-shadow: 0px 0px 45px rgba(55, 81, 251, 0.232);
+    margin-top: 50px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+}
+
+.foto{
+    display: block;
+    align-content: center;
+}
+
+img{
+    margin: 0;
+    align-content: center;
+    max-width: 600px;
+    padding: 0;
+}
+
+div > h1,h2{
+    color: rgb(79, 73, 255);
+    font-family: monospace;
+}
+
+a{
+    text-decoration:double;
+    color: rgb(137, 195, 221);
+}

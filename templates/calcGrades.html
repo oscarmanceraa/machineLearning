@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles2.css') }}">
+    <title>Temperatura vs Consumo</title>
+</head>
+<body>
+    <h1>regresion lineal predice consumo basado en el tiempo</h1>
+    <div>
+        <h2>objetivo</h2>
+        <p>desarrollar un modelo de regresión lineal que predice el consumo de energía en función de la temperatura. El modelo se ha entrenado con un dataset de consumo y temperatura. A continuación, se presenta una interfaz donde se puede ingresar la temperatura actual y obtener una estimación del consumo de energía en función de ese valor.</p>
+    </div>
+    <div>
+        <form method="POST" action="/calc">
+            <label for="temperature">Temperatura:</label>
+            <input type="number" name="temperature" required placeholder="ingrese temperatura">
+            <button type="submit">ejecutar</button>
+        </form>
+
+        {% if result is not none %}
+            <h2>Consumo estimado: {{ result }}</h2>
+        {% endif %}
+
+        {% if plot_image is not none %}
+            <h2>Gráfica de Regresión Lineal</h2>
+            <img src="data:image/png;base64,{{ plot_image }}" alt="Gráfica de Regresión">
+
+        {% endif %}
+    </div>
+    
+</body>
+</html>
