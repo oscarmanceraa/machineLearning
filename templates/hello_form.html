@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles2.css') }}">
+    <title>Hello There</title>
+</head>
+<body>
+    <div>
+        <h2>Ingresa tu nombre</h2>
+        <form id="nameForm" onsubmit="submitForm(event)">
+            <input type="text" id="nameInput" required placeholder="Escribe tu nombre">
+            <button type="submit">Saludar</button>
+        </form>
+    </div>
+    <div class="back-button">
+        <a href="{{ url_for('hello') }}" class="back-link">Volver al Inicio</a>
+    </div>
+
+    <script>
+        function submitForm(event) {
+            event.preventDefault();
+            const name = document.getElementById('nameInput').value;
+            window.location.href = `/hello/${name}`;
+        }
+    </script>
+</body>
+</html>

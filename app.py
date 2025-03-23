@@ -4,6 +4,7 @@ from lineaRegLin import predict_consumption, graph
 from flask import Flask, render_template, request
 import lineaRegLin
 from random import randint
+import base64 
 
 app = Flask(__name__)
 
@@ -28,7 +29,7 @@ def hello_there(name):
 
 @app.route("/hello2")
 def helloHTML():
-        return render_template("index.html")
+        return render_template("casoExito.html")
 
 @app.route("/calc", methods=["GET", "POST"])
 def calcular():
@@ -52,6 +53,10 @@ def calcular():
     print("plot_image:", plot_image[:50] if plot_image else "None")  
 
     return render_template("calcGrades.html", result=result, plot_image=plot_image)
+
+@app.route("/hello_form")
+def hello_form():
+    return render_template("hello_form.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

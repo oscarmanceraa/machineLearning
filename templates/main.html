@@ -4,9 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Machine learning</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilosos.css') }}">
 </head>
 <body>
-    <h1>hola mundo</h1>
-    <!--  aqui se hace el menu  -->
+    <header>
+        <div class="header_superior">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='logo2.png') }}" alt="logo">
+            </div>
+        </div>
+
+        <div class="container_menu">
+            <div class="menu">
+                <nav>
+                    <ul>
+                        <li><a href="#" ></a></li>
+                        <li><a href="#">algoritmos</a>
+                            <ul>
+                                <li><a href="{{ url_for('calcular') }}" class="navbar-item">regresion lineal</a></li>
+                                <li><a href="#">regresion logistica</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">informacion</a>
+                            <ul>
+                                <li><a href="{{ url_for('helloHTML') }}" class="navbar-item">Caso exito</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">ejercicios</a>
+                            <ul>
+                                <li><a href="{{ url_for('hello_form') }}" class="navbar-item">Hello There</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <h1>hello flask</h1>
+    
 </body>
 </html>
