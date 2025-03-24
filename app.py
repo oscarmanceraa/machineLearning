@@ -58,5 +58,9 @@ def calcular():
 def hello_form():
     return render_template("hello_form.html")
 
+@app.route("/mapa/")
+def mapa():
+    return render_template("mapa.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
