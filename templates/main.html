@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Machine learning</title>
+    <script src="https://kit.fontawesome.com/e7754be045.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='estilosos.css') }}">
 </head>
 <body>
@@ -16,9 +17,13 @@
 
         <div class="container_menu">
             <div class="menu">
+                <input type="checkbox" id="check">
+                <label id="label__check" for="check">
+                    <i class="fa-solid fa-bars icon__menu"></i>
+                </label>
                 <nav>
                     <ul>
-                        <li><a href="#" ></a></li>
+                        <li><a href="#" id="selected">Inicio</a></li>
                         <li><a href="#">algoritmos</a>
                             <ul>
                                 <li><a href="{{ url_for('calcular') }}" class="navbar-item">regresion lineal</a></li>
@@ -41,7 +46,10 @@
             </div>
         </div>
     </header>
-    <h1>hello flask</h1>
+    
+    <main>
+        <h1>Hello Flask</h1>
+    </main>
     
 </body>
 </html>
