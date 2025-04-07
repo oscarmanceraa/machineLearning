@@ -27,7 +27,7 @@
                         <li><a href="#">algoritmos</a>
                             <ul>
                                 <li><a href="{{ url_for('calcular') }}" class="navbar-item">regresion lineal</a></li>
-                                <li><a href="#">regresion logistica</a></li>
+                                <li><a href="{{ url_for('predict') }}">regresion logistica</a></li>
                             </ul>
                         </li>
                         <li><a href="#">informacion</a>
@@ -39,6 +39,7 @@
                         <li><a href="#">ejercicios</a>
                             <ul>
                                 <li><a href="{{ url_for('hello_form') }}" class="navbar-item">Hello There</a></li>
+                                <li><a href="{{ url_for('RLResult') }}" class="navbar-item">Reforce Learning</a></li>
                             </ul>
                         </li>
                     </ul>

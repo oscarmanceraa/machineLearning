@@ -4,7 +4,10 @@ from lineaRegLin import predict_consumption, graph
 from flask import Flask, render_template, request
 import lineaRegLin
 from random import randint
-import base64 
+import base64
+import pandas as pd 
+from RegresionLogistica import modeel
+from RL import train_agent
 
 app = Flask(__name__)
 
@@ -40,7 +43,7 @@ def calcular():
         try:
             temperature = float(request.form['temperature'])  
             result = predict_consumption(temperature)  
-            plot_image = graph()  # Generar la imagen de la gráfica
+            plot_image = graph()  
 
             if isinstance(plot_image, bytes):
                 plot_image = base64.b64encode(plot_image).decode('utf-8')
@@ -62,5 +65,37 @@ def hello_form():
 def mapa():
     return render_template("mapa.html")
 
-if __name__ == "__main__":
-    app.run(debug=True)
+
+model = modeel()
+model.inicio()  
+
+@app.route('/predict', methods=['GET', 'POST'])
+def predict():
+    if request.method == 'GET':
+        return render_template('results.html', metrics=model.metrics)
+        
+    input_data = [
+        float(request.form.get('male', 0)),
+        float(request.form.get('age', 0)),
+        float(request.form.get('education', 0)),
+        float(request.form.get('currentSmoker', 0)),
+        float(request.form.get('cigsPerDay', 0)),
+        float(request.form.get('BPMeds', 0)),
+        float(request.form.get('prevalentStroke', 0)),
+        float(request.form.get('prevalentHyp', 0)),
+        float(request.form.get('diabetes', 0)),
+        float(request.form.get('totChol', 0)),
+        float(request.form.get('sysBP', 0)),
+        float(request.form.get('diaBP', 0)),
+        float(request.form.get('BMI', 0)),
+        float(request.form.get('heartRate', 0)),
+        float(request.form.get('glucose', 0))
+    ]
+    
+    result = model.predict(input_data)
+    return render_template('results.html', result=result, metrics=model.metrics)
+
+@app.route("/RL")
+def  RLResult():
+    acurracy, q_table = train_agent()
+    return render_template("RL.html", acurracy=acurracy)
