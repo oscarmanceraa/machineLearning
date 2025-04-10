@@ -8,12 +8,16 @@ import base64
 import pandas as pd 
 from RegresionLogistica import modeel
 from RL import train_agent
-
+#-------------------------------
 app = Flask(__name__)
+
+#---------Ruta main-----------------
 
 @app.route('/')
 def hello():
     return render_template("main.html")
+
+#---------Ruta nombre-----------------
 
 @app.route("/hello/<name>") 
 def hello_there(name):
@@ -30,9 +34,13 @@ def hello_there(name):
     content = f"hello there {clean_name},  | the date is: {formatted_now}"
     return content
 
+#---------Ruta Caso de exito-----------------
+
 @app.route("/hello2")
 def helloHTML():
         return render_template("casoExito.html")
+    
+#---------Ruta Regresion lineal-----------------
 
 @app.route("/calc", methods=["GET", "POST"])
 def calcular():
@@ -57,18 +65,21 @@ def calcular():
 
     return render_template("calcGrades.html", result=result, plot_image=plot_image)
 
+#---------Ruta main-----------------
+
 @app.route("/hello_form")
 def hello_form():
     return render_template("hello_form.html")
 
+#---------Ruta Mapa Regresion Logistica-----------------
+
 @app.route("/mapa/")
 def mapa():
     return render_template("mapa.html")
-
-
 model = modeel()
 model.inicio()  
 
+#---------Ruta Regresion Logistica-----------------
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     if request.method == 'GET':
@@ -95,6 +106,8 @@ def predict():
     result = model.predict(input_data)
     return render_template('results.html', result=result, metrics=model.metrics)
 
+
+#---------Ruta Reforce learning-----------------
 @app.route("/RL")
 def  RLResult():
     acurracy, q_table = train_agent()
