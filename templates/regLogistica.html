@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predicción de Riesgo Cardíaco</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles2.css') }}">
+</head>
+<body>
+    <h1>Predicción de Riesgo Cardíaco</h1>
+    <form method="POST">
+        <div>
+            
+        </div>
+        <div>
+            <label>Género (1=Masculino, 0=Femenino):</label>
+            <input type="number" name="male" min="0" max="1" required>
+        </div>
+        <div>
+            <label>Edad:</label>
+            <input type="number" name="age" required>
+        </div>
+        <div>
+            <label>Educación (1-4):</label>
+            <input type="number" name="education" min="1" max="4" required>
+        </div>
+        <div>
+            <label>Fumador Actual (1=Sí, 0=No):</label>
+            <input type="number" name="currentSmoker" min="0" max="1" required>
+        </div>
+        <div>
+            <label>Cigarrillos por día:</label>
+            <input type="number" name="cigsPerDay" min="0" required>
+        </div>
+        <div>
+            <label>Medicamentos para Presión Arterial (1=Sí, 0=No):</label>
+            <input type="number" name="BPMeds" min="0" max="1" required>
+        </div>
+        <div>
+            <label>Antecedentes de Derrame Cerebral (1=Sí, 0=No):</label>
+            <input type="number" name="prevalentStroke" min="0" max="1" required>
+        </div>
+        <div>
+            <label>Hipertensión (1=Sí, 0=No):</label>
+            <input type="number" name="prevalentHyp" min="0" max="1" required>
+        </div>
+        <div>
+            <label>Diabetes (1=Sí, 0=No):</label>
+            <input type="number" name="diabetes" min="0" max="1" required>
+        </div>
+        <div>
+            <label>Colesterol Total:</label>
+            <input type="number" name="totChol" required>
+        </div>
+        <div>
+            <label>Presión Sistólica:</label>
+            <input type="number" name="sysBP" required>
+        </div>
+        <div>
+            <label>Presión Diastólica:</label>
+            <input type="number" name="diaBP" required>
+        </div>
+        <div>
+            <label>IMC:</label>
+            <input type="number" name="BMI" step="0.1" required>
+        </div>
+        <div>
+            <label>Frecuencia Cardíaca:</label>
+            <input type="number" name="heartRate" required>
+        </div>
+        <div>
+            <label>Glucosa:</label>
+            <input type="number" name="glucose" required>
+        </div>
+        
+        <button type="submit">Predecir</button>
+    </form>
+    
+    {% if prediction is defined %}
+    <div>
+        <h2>Resultado:</h2>
+        <p>Riesgo: {{ "Alto" if prediction == 1 else "Bajo" }}</p>
+        <p>Probabilidad: {{ probability }}</p>
+    </div>
+    {% endif %}
+</body>
+</html>

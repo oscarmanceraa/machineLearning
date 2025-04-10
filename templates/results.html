@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resultados de Predicción</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles2.css') }}">
+</head>
+<body>
+    <h1>Resultados del Análisis de Riesgo Cardíaco</h1>
+
+    {% if result %}
+    <div class="result-box {% if result.prediction == 1 %}high-risk{% else %}low-risk{% endif %}">
+        <h2>Nivel de Riesgo: {{ result.risk_level }}</h2>
+        <p>{{ result.message }}</p>
+        <p>Probabilidad: {{ "%.2f"|format(result.probability * 100) }}%</p>
+    </div>
+    {% endif %}
+
+    {% if metrics %}
+    <div class="metrics-box">
+        <h3>Métricas del Modelo</h3>
+        <ul>
+            <li>Exactitud (Accuracy): {{ "%.2f"|format(metrics.accuracy * 100) }}%</li>
+            <li>Precisión (Precision): {{ "%.2f"|format(metrics.precision * 100) }}%</li>
+            <li>Sensibilidad (Recall): {{ "%.2f"|format(metrics.recall * 100) }}%</li>
+        </ul>
+    </div>
+
+    <div class="confusion-matrix">
+        <h3>Matriz de Confusión</h3>
+        <img src="{{ url_for('static', filename='confusion_matrix.png') }}" alt="Matriz de Confusión">
+    </div>
+    {% endif %}
+
+    <div>
+        <h2>Realizar Nueva Predicción</h2>
+        <form action="{{ url_for('predict') }}" method="POST">
+            <!-- Fields ordered to match input_data -->
+            <div>
+                <label>Género (1=Masculino, 0=Femenino):</label>
+                <input type="number" name="male" min="0" max="1" required>
+            </div>
+            <div>
+                <label>Edad:</label>
+                <input type="number" name="age" min="20" max="100" required>
+            </div>
+            <div>
+                <label>Educación (1-4):</label>
+                <input type="number" name="education" min="1" max="4" required>
+            </div>
+            <div>
+                <label>Fumador Actual (1=Sí, 0=No):</label>
+                <input type="number" name="currentSmoker" min="0" max="1" required>
+            </div>
+            <div>
+                <label>Cigarrillos por día:</label>
+                <input type="number" name="cigsPerDay" min="0" max="100" required>
+            </div>
+            <div>
+                <label>Medicamentos para Presión Arterial (1=Sí, 0=No):</label>
+                <input type="number" name="BPMeds" min="0" max="1" required>
+            </div>
+            <div>
+                <label>Antecedentes de Derrame Cerebral (1=Sí, 0=No):</label>
+                <input type="number" name="prevalentStroke" min="0" max="1" required>
+            </div>
+            <div>
+                <label>Hipertensión (1=Sí, 0=No):</label>
+                <input type="number" name="prevalentHyp" min="0" max="1" required>
+            </div>
+            <div>
+                <label>Diabetes (1=Sí, 0=No):</label>
+                <input type="number" name="diabetes" min="0" max="1" required>
+            </div>
+            <div>
+                <label>Colesterol Total (mg/dL):</label>
+                <input type="number" name="totChol" min="100" max="600" required>
+            </div>
+            <div>
+                <label>Presión Sistólica (mmHg):</label>
+                <input type="number" name="sysBP" min="80" max="300" required>
+            </div>
+            <div>
+                <label>Presión Diastólica (mmHg):</label>
+                <input type="number" name="diaBP" min="40" max="200" required>
+            </div>
+            <div>
+                <label>IMC:</label>
+                <input type="number" name="BMI" step="0.1" min="15" max="50" required>
+            </div>
+            <div>
+                <label>Frecuencia Cardíaca (latidos/min):</label>
+                <input type="number" name="heartRate" min="40" max="200" required>
+            </div>
+            <div>
+                <label>Glucosa (mg/dL):</label>
+                <input type="number" name="glucose" min="40" max="400" required>
+            </div>
+            
+            <button type="submit">Predecir Riesgo</button>
+        </form>
+    </div>
+</body>
+</html>
