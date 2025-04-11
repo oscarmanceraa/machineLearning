@@ -34,6 +34,17 @@
                             <ul>
                                 <li><a href="{{ url_for('helloHTML') }}" class="navbar-item">Caso exito</a></li>
                                 <li><a href="{{ url_for('mapa') }}" class="navbar-item">mapa regresion logistica</a></li>
+                                <li><a href="{{ url_for('modelosML') }}" class="navbar-item">Modelos ML</a>
+                                    <ul>
+                                        <li><a href="{{ url_for('modelosML') }}?tipo=1" class="navbar-item">Regresión logistica</a></li>
+                                        <li><a href="{{ url_for('modelosML') }}?tipo=2" class="navbar-item">K-Nearest Neighbors</a></li>
+                                        <li><a href="{{ url_for('modelosML') }}?tipo=3" class="navbar-item">Árboles de Decisión</a></li>
+                                        <li><a href="{{ url_for('modelosML') }}?tipo=4" class="navbar-item">Random Forest</a></li>
+                                        <li><a href="{{ url_for('modelosML') }}?tipo=5" class="navbar-item">Support Vector Machine</a></li>
+                                        <li><a href="{{ url_for('modelosML') }}?tipo=6" class="navbar-item">Gradient Boosting</a></li>
+                                        <li><a href="{{ url_for('modelosML') }}?tipo=7" class="navbar-item">Naive Bayes</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
                         <li><a href="#">ejercicios</a>

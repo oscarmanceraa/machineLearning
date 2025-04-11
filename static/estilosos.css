@@ -266,3 +266,16 @@ nav ul li ul li a:hover{
     }
     
 }
+
+.menu nav ul li ul li ul {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background: #ffffff;
+    width: 200px;
+}
+
+.menu nav ul li ul li:hover > ul {
+    display: block;
+}

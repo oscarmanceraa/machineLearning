@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>..:tipos ML:..</title>
+</head>
+<body>
+    
+    <div class="h1">
+        <h1 class="tittle">Sepsis Watch: Cómo el Machine Learning está salvando vidas en los hospitales</h1> 
+    </div>
+    <div class="back-button">
+        <a href="{{ url_for('hello') }}" class="back-link">Volver al Inicio</a>
+    </div>
+
+    <div class="foto">
+        <h2>Desarrollado por</h2>
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+    </div>
+
+    <div class="introduccion">
+        <h2>Introduccion</h2>
+        <p>La sepsis es una afección médica grave y potencialmente mortal que ocurre cuando el cuerpo tiene una respuesta abrumadora a una infección, lo que puede provocar fallos orgánicos y, en muchos casos, la muerte. Identificarla a tiempo es crucial, ya que cada hora de retraso en el tratamiento adecuado aumenta significativamente el riesgo de mortalidad. Aquí es donde entra en juego Sepsis Watch, un sistema de machine learning desarrollado por Duke Health que está revolucionando la forma en que los hospitales abordan esta condición.</p>
+    </div>
+
+    <div class="que_es">
+        <h2>¿Qué es Sepsis Watch?</h2>
+        <p>Sepsis Watch es una plataforma basada en inteligencia artificial (IA) y machine learning diseñada para predecir la sepsis en pacientes hospitalizados. El sistema analiza datos en tiempo real, como signos vitales (frecuencia cardíaca, presión arterial, temperatura) y resultados de laboratorio (niveles de lactato, recuento de glóbulos blancos, entre otros), para identificar patrones que indiquen un riesgo inminente de sepsis. El modelo fue entrenado con datos históricos de miles de pacientes, lo que le permite reconocer señales tempranas que podrían pasar desapercibidas para el ojo humano. Cuando el sistema detecta un riesgo elevado, envía una alerta a los médicos y enfermeras, permitiendo una intervención rápida y precisa.</p>
+    </div>
+
+    <div class="como_funciona">
+        <h2>¿Cómo funciona?</h2>
+        <p>
+            1. Recopilación de datos: El sistema recopila datos en tiempo real de monitores de pacientes, historiales médicos electrónicos y resultados de laboratorio. <br><br>
+            2. Análisis predictivo: Utiliza algoritmos de machine learning para analizar estos datos y calcular el riesgo de sepsis. <br><br>
+            3. Alertas en tiempo real: Si el riesgo supera un umbral predefinido, el sistema envía una alerta al equipo médico, indicando la necesidad de intervención inmediata. <br><br>
+            4. Seguimiento continuo: El sistema monitorea constantemente al paciente, ajustando las predicciones según su evolución. <br><br>
+        </p>
+    </div>
+    <div class="algoritmo">
+        <h2>Algoritmo que emplea</h2>
+        <p>
+            Código de limpieza y procesamiento de datos de EHR - Este proceso incluye el mapeo y la limpieza exhaustiva de los datos, identificando y corrigiendo cualquier discrepancia que pueda existir en los sistemas heredados
+        </p>
+    </div>
+    <div class="resultados">
+        <h2>Resultados clave</h2>
+        <p>
+            1. Detección temprana: Sepsis Watch puede identificar casos de sepsis hasta 6 horas antes de que los síntomas se vuelvan evidentes, lo que permite a los médicos actuar de manera proactiva. <br> <br>
+            2. Reducción de la mortalidad: En los hospitales donde se ha implementado, el sistema ha contribuido a una reducción significativa en las tasas de mortalidad por sepsis. Por ejemplo, en Duke University Hospital, se observó una disminución del 20% en la mortalidad relacionada con sepsis después de la implementación del sistema. <br><br>
+            3. Mejora en la atención: El sistema no solo salva vidas, sino que también optimiza el flujo de trabajo del personal médico, permitiéndoles priorizar a los pacientes que más lo necesitan. <br><br>
+        </p>
+    </div>
+    <div class="tittle">
+        <h2>REFERENCIAS</h2>
+    </div>
+    <div class="referencia">
+        Duke Health. (2020, marzo 10). Duke’s augmented intelligence system helps prevent sepsis in the ED. Duke Health.
+        <br>
+        <a href="https://physicians.dukehealth.org/articles/dukes-augmented-intelligence-system-helps-prevent-sepsis-ed">Link de referencia</a> 
+    </div>
+    <div class="referencia">
+        Garcia, C. (2024, noviembre 14). ¿Qué son los registros médicos electrónicos (EHR) y por qué son esenciales en la atención médica moderna? Appmaster.io; AppMaster.
+        <br>
+        <a href="https://appmaster.io/es/blog/que-son-los-registros-medicos-electronicos">Link de referencia</a> 
+    </div>
+    <div class="referencia">
+        Sepsis WatchTM: the implementation of a Duke-specific early warning system for sepsis. (2020, enero 18). Duke Institute for Health Innovation. 
+        <br>
+        <a href="https://dihi.org/project/sepsiswatch/ ">Link de referencia</a>
+    </div>
+    
+    <div class="back-button">
+        <a href="{{ url_for('hello') }}" class="back-link"> Volver al Inicio </a>
+    </div>
+</body>
+</html>

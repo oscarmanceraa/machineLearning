@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modelos de Machine Learning</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .descripcion {
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+    {% if tipo == '1' %}
+        <h1>Regresión Logística</h1>
+    {% elif tipo == '2' %}
+        <h1>K-Nearest Neighbors (KNN)</h1>
+    {% elif tipo == '3' %}
+        <h1>Árboles de Decisión</h1>
+    {% elif tipo == '4' %}
+        <h1>Random Forest</h1>
+    {% elif tipo == '5' %}
+        <h1>Support Vector Machine (SVM)</h1>
+    {% elif tipo == '6' %}
+        <h1>Gradient Boosting</h1>
+    {% elif tipo == '7' %}
+        <h1>Naive Bayes</h1>
+    {% else %}
+        <h1>Todos los Modelos de Machine Learning</h1>
+    {% endif %}
+    
+    {% if results %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo ML</th>
+                    <th>ID Tipo</th>
+                    <th>Modelo</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in results %}
+                    <tr>
+                        <td>{{ row[0] }}</td>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td class="descripcion">{{ row[4] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No se encontraron datos para este modelo.</p>
+    {% endif %}
+    
+    <p><a href="/">Volver al Inicio</a></p>
+</body>
+</html>
