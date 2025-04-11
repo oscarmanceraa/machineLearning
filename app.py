@@ -8,8 +8,18 @@ import base64
 import pandas as pd 
 from RegresionLogistica import modeel
 from RL import train_agent
+from flask_mysqldb import MySQL
 #-------------------------------
 app = Flask(__name__)
+
+# MySQL Configuration
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'  
+app.config['MYSQL_PASSWORD'] = ''  # cont db
+app.config['MYSQL_DB'] = 'flaskbd'  # nombre db
+
+# inicia mysql
+mysql = MySQL(app)
 
 #---------Ruta main-----------------
 
@@ -112,3 +122,24 @@ def predict():
 def  RLResult():
     acurracy, q_table = train_agent()
     return render_template("RL.html", acurracy=acurracy)
+
+#---------Ruta para mostrar datos de modelos de ML de MySQL-----------------
+@app.route("/modelosML")
+def modelosML():
+    cur = mysql.connection.cursor()
+    
+    # Obtener el parámetro tipo de la URL
+    tipo = request.args.get('tipo')
+    
+    # Si se especifica un tipo, filtrar por ese tipo
+    if tipo:
+        # Filtramos por idTipoM en lugar de idModeloML
+        cur.execute("SELECT * FROM modelosml WHERE idTipoM = %s", [tipo])
+    else:
+        cur.execute("SELECT * FROM modelosml")
+        
+    results = cur.fetchall()
+    cur.close()
+    
+    # Pasar el tipo seleccionado a la plantilla
+    return render_template("modelosML.html", results=results, tipo=tipo)
