@@ -133,13 +133,34 @@ def modelosML():
     
     # Si se especifica un tipo, filtrar por ese tipo
     if tipo:
-        # Filtramos por idTipoM en lugar de idModeloML
         cur.execute("SELECT * FROM modelosml WHERE idTipoM = %s", [tipo])
     else:
         cur.execute("SELECT * FROM modelosml")
         
     results = cur.fetchall()
+    
+    # Obtener recursos gráficos para cada modelo
+    recursos = {}
+    for row in results:
+        modelo_id = row[0]  # idModeloML
+        cur.execute("SELECT idRecursoGrafico, RecursoGrafico, Recurso FROM recursosgraficos WHERE idModeloML = %s", [modelo_id])
+        recursos_modelo = cur.fetchall()
+        
+        # Convertir las imágenes BLOB a base64 para mostrarlas en HTML
+        recursos_procesados = []
+        for recurso in recursos_modelo:
+            if recurso[2]:  # Si hay datos en el campo Recurso (BLOB)
+                # Convertir BLOB a base64
+                imagen_base64 = base64.b64encode(recurso[2]).decode('utf-8')
+                recursos_procesados.append({
+                    'id': recurso[0],
+                    'nombre': recurso[1],
+                    'imagen': imagen_base64
+                })
+        
+        recursos[modelo_id] = recursos_procesados
+    
     cur.close()
     
-    # Pasar el tipo seleccionado a la plantilla
-    return render_template("modelosML.html", results=results, tipo=tipo)
+    # Pasar el tipo seleccionado y los recursos a la plantilla
+    return render_template("modelosML.html", results=results, tipo=tipo, recursos=recursos)

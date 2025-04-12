@@ -2,73 +2,90 @@
 <html>
 <head>
     <title>Modelos de Machine Learning</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles2.css') }}">
     <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
+        .recursos-container {
+            margin-top: 30px;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:nth-child(even) {
+        .recurso-item {
+            margin-bottom: 20px;
+            padding: 15px;
             background-color: #f9f9f9;
+            border-radius: 8px;
         }
-        .descripcion {
-            max-width: 500px;
+        .recurso-imagen {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    {% if tipo == '1' %}
-        <h1>Regresión Logística</h1>
-    {% elif tipo == '2' %}
-        <h1>K-Nearest Neighbors (KNN)</h1>
-    {% elif tipo == '3' %}
-        <h1>Árboles de Decisión</h1>
-    {% elif tipo == '4' %}
-        <h1>Random Forest</h1>
-    {% elif tipo == '5' %}
-        <h1>Support Vector Machine (SVM)</h1>
-    {% elif tipo == '6' %}
-        <h1>Gradient Boosting</h1>
-    {% elif tipo == '7' %}
-        <h1>Naive Bayes</h1>
-    {% else %}
-        <h1>Todos los Modelos de Machine Learning</h1>
-    {% endif %}
-    
-    {% if results %}
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Tipo ML</th>
-                    <th>ID Tipo</th>
-                    <th>Modelo</th>
-                    <th>Descripción</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in results %}
+    <div>
+        {% if tipo == '1' %}
+            <h1>Regresión Logística</h1>
+        {% elif tipo == '2' %}
+            <h1>K-Nearest Neighbors (KNN)</h1>
+        {% elif tipo == '3' %}
+            <h1>Árboles de Decisión</h1>
+        {% elif tipo == '4' %}
+            <h1>Random Forest</h1>
+        {% elif tipo == '5' %}
+            <h1>Support Vector Machine (SVM)</h1>
+        {% elif tipo == '6' %}
+            <h1>Gradient Boosting</h1>
+        {% elif tipo == '7' %}
+            <h1>Naive Bayes</h1>
+        {% else %}
+            <h1>Todos los Modelos de Machine Learning</h1>
+        {% endif %}
+        
+        {% if results %}
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ row[0] }}</td>
-                        <td>{{ row[1] }}</td>
-                        <td>{{ row[2] }}</td>
-                        <td>{{ row[3] }}</td>
-                        <td class="descripcion">{{ row[4] }}</td>
+                        <th>ID</th>
+                        <th>Tipo ML</th>
+                        <th>ID Tipo</th>
+                        <th>Modelo</th>
+                        <th>Descripción</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No se encontraron datos para este modelo.</p>
-    {% endif %}
-    
-    <p><a href="/">Volver al Inicio</a></p>
+                </thead>
+                <tbody>
+                    {% for row in results %}
+                        <tr>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[2] }}</td>
+                            <td>{{ row[3] }}</td>
+                            <td class="descripcion">{{ row[4] }}</td>
+                        </tr>
+                        
+                        <!-- Mostrar recursos gráficos para este modelo -->
+                        {% if recursos[row[0]] %}
+                            <tr>
+                                <td colspan="5">
+                                    <div class="recursos-container">
+                                        <h3>Recursos Gráficos</h3>
+                                        {% for recurso in recursos[row[0]] %}
+                                            <div class="recurso-item">
+                                                <h4>{{ recurso.nombre }}</h4>
+                                                <img class="recurso-imagen" src="data:image/jpeg;base64,{{ recurso.imagen }}" alt="{{ recurso.nombre }}">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No se encontraron datos para este modelo.</p>
+        {% endif %}
+        
+        <p><a href="/" class="btn">Volver al Inicio</a></p>
+    </div>
 </body>
 </html>
