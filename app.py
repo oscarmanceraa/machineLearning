@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 from lineaRegLin import predict_consumption, graph
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify, send_file
 import lineaRegLin
 from random import randint
 import base64
@@ -9,6 +9,9 @@ import pandas as pd
 from RegresionLogistica import modeel
 from RL import train_agent
 from flask_mysqldb import MySQL
+import os
+import io
+from RandomForest import inicializar_modelo  # Updated to use the Spanish function name
 #-------------------------------
 app = Flask(__name__)
 
@@ -20,6 +23,8 @@ app.config['MYSQL_DB'] = 'flaskbd'  # nombre db
 
 # inicia mysql
 mysql = MySQL(app)
+
+rf_model = inicializar_modelo() 
 
 #---------Ruta main-----------------
 
@@ -164,3 +169,142 @@ def modelosML():
     
     # Pasar el tipo seleccionado y los recursos a la plantilla
     return render_template("modelosML.html", results=results, tipo=tipo, recursos=recursos)
+
+#---------Ruta Random Forest-----------------
+@app.route('/random', methods=['GET', 'POST'])
+def random():
+    results = []  # Initialize results at the beginning
+    
+    if request.method == 'POST':
+        if 'excel_file' in request.files:
+            file = request.files['excel_file']
+            if file.filename != '':
+                try:
+                    df = pd.read_excel(file)
+                    required_columns = ['radius_mean', 'texture_mean', 'symmetry_mean']
+                    
+                    if all(col in df.columns for col in required_columns):
+                        df = df[required_columns]
+                        predictions = rf_model.predecir(df)
+                        
+                        for i, row in df.iterrows():
+                            result = row.to_dict()
+                            result.update(predictions[i])
+                            results.append(result)
+                            
+                        return render_template('random_forest.html',
+                                            results=results,
+                                            metrics=rf_model.metricas,
+                                            file_uploaded=True,
+                                            file_name=file.filename)
+                    else:
+                        return render_template("random_forest.html",
+                                            error="El archivo Excel debe contener las columnas: radius_mean, texture_mean, symmetry_mean")
+                except Exception as e:
+                    return render_template("random_forest.html",
+                                        error=f"Error al procesar el archivo: {str(e)}")
+    
+    if request.method == 'GET':
+        return render_template("random_forest.html", metrics=rf_model.metricas)
+    
+    results = []
+    uploaded_data = None
+    
+    if 'file' in request.files and request.files['file'].filename != '':
+        file = request.files['file']
+
+        if file.filename.endswith('.xlsx') or file.filename.endswith('.xls'):
+            df = pd.read_excel(file)
+            print(f"Columns in uploaded file: {list(df.columns)}")
+
+            required_columns = ['radius_mean', 'texture_mean', 'symmetry_mean']
+            if all(col in df.columns for col in required_columns):
+                df = df[required_columns]
+                uploaded_data = df.to_dict('records')
+                
+                predictions = rf_model.predecir(df) 
+                
+                for i, row in enumerate(uploaded_data):
+                    row.update(predictions[i])
+                    results.append(row)
+            else:
+                return render_template("random_forest.html", 
+                                      error="El archivo Excel debe contener las columnas: radius_mean, texture_mean, symmetry_mean")
+        else:
+            return render_template("random_forest.html", 
+                                  error="Por favor sube un archivo Excel (.xlsx o .xls)")
+    
+    elif request.form.get('radius') and request.form.get('texture') and request.form.get('symmetry'):
+        try:
+            radius = float(request.form.get('radius'))
+            texture = float(request.form.get('texture'))
+            symmetry = float(request.form.get('symmetry'))
+            
+            prediction = rf_model.predecir([[radius, texture, symmetry]])[0]  # Changed from predict to predecir
+            
+            result = {
+                'radius_mean': radius,
+                'texture_mean': texture,
+                'symmetry_mean': symmetry,
+                'prediction': prediction['prediction'],
+                'prediction_label': prediction['prediction_label'],
+                'probability': prediction['probability']
+            }
+            results.append(result)
+            
+        except ValueError:
+            return render_template("random_forest.html", 
+                                  error="Por favor ingresa valores numéricos válidos")
+    
+    return render_template("random_forest.html", results=results, metrics=rf_model.metricas)
+
+#---------Ruta para exportar resultados-----------------
+@app.route("/export", methods=['POST'])
+def export_results():
+    data_json = request.form.get('data')
+    
+    if not data_json:
+        print("No data received for export")
+        return jsonify({"error": "No data to export"}), 400
+    
+    try:
+        import json
+        print(f"Received data: {data_json[:100]}...")  
+        data = json.loads(data_json)
+        
+        df = pd.DataFrame(data)
+        print(f"DataFrame columns: {df.columns}")  
+
+        column_mapping = {
+            'Radio': 'radius_mean',
+            'Textura': 'texture_mean',
+            'Simetría': 'symmetry_mean',
+            'radius_mean': 'radius_mean',
+            'texture_mean': 'texture_mean',
+            'symmetry_mean': 'symmetry_mean'
+        }
+        
+        rename_cols = {k: v for k, v in column_mapping.items() if k in df.columns}
+        if rename_cols:
+            df = df.rename(columns=rename_cols)
+
+        output = io.BytesIO()
+        
+        # Exportando a Excel
+        df.to_excel(output, index=False, engine='openpyxl')
+        mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        filename = 'cancer_predictions.xlsx'
+        
+        output.seek(0)
+        
+        return send_file(
+            output,
+            mimetype=mimetype,
+            as_attachment=True,
+            download_name=filename
+        )
+        
+    except Exception as e:
+        print(f"Export error: {str(e)}") 
+        return jsonify({"error": str(e)}), 500
+    
